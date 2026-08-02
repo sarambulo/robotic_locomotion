@@ -7,9 +7,11 @@ Week 1: Manual simulation control
 - Visualize simulation (optional, may not work in WSL without X11)
 """
 
-import mujoco
-import numpy as np
+from __future__ import annotations
+
 import sys
+
+import mujoco
 
 # Load the model
 model = mujoco.MjModel.from_xml_path("robot/robot.xml")
@@ -33,11 +35,11 @@ print("-" * 40)
 
 for step in range(100):
     mujoco.mj_step(model, data)
-    
+
     # Read back joint position and velocity
     joint_pos = data.qpos[0]
     joint_vel = data.qvel[0]
-    
+
     if step % 10 == 0:
         print(f"{step:4d} | {joint_pos:14.4f} | {joint_vel:14.4f}")
 
@@ -50,20 +52,13 @@ skip_viewer = "--no-viewer" in sys.argv
 
 if not skip_viewer:
     try:
-        # Try to import and use the viewer
         import mujoco.viewer
-        
+
         with mujoco.viewer.launch_passive(model, data) as viewer:
             print("Viewer launched successfully. Press Ctrl+C to exit.")
-            # Run the viewer loop
             while viewer.is_running():
-                # Apply the same fixed torque
                 data.ctrl[0] = fixed_torque
-                
-                # Step simulation
                 mujoco.mj_step(model, data)
-                
-                # Update the viewer
                 viewer.sync()
     except (AttributeError, ImportError) as e:
         print(f"Viewer not available: {e}")

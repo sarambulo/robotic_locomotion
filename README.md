@@ -16,11 +16,20 @@ Week 2 introduced a minimal Gymnasium-compatible environment around the existing
 
 Implemented so far:
 - A simple `RobotEnv` wrapper in `environment/env.py`
+- A modular PPO implementation in `reinforcement_learning/` with separate modules for networks, buffers, and training utilities
 - `reset()`, `step()`, `render()`, and `close()` methods
 - A basic observation vector containing joint position and velocity
 - A continuous torque action space
 - A placeholder reward signal and fixed-length episode termination
 - Tests covering reset, stepping, rewards, observations, and termination behavior
+- A simple PPO implementation validated on CartPole before integration with the locomotion environment
+
+## Running the example scripts
+The example scripts now live at the project root:
+- `python week1_manual_control.py`
+- `python week3_random_policy.py`
+- `python train_ppo_cartpole.py`
+- `python evaluate_policy.py`
 
 This milestone is intentionally simple and transparent. The goal is to verify that the environment interface behaves correctly before introducing any RL logic.
 
@@ -29,7 +38,7 @@ This milestone is intentionally simple and transparent. The goal is to verify th
 conda activate robotics
 pip install -r requirements.txt
 python -m pytest -q
-python scripts/week1_manual_control.py
+python week1_manual_control.py
 ```
 
 ## Observation and action vectors
